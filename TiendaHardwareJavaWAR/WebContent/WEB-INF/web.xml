@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>TiendaHardwareJavaWAR</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error.jsp</location>
+  </error-page>
+  
+  <servlet>
+    <servlet-name>CrearCategoria</servlet-name>
+    <jsp-file>/views/models/categoria/crear.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CrearCategoria</servlet-name>
+    <url-pattern>/categoria/crear</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ListarCategorias</servlet-name>
+    <jsp-file>/views/models/categoria/listar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListarCategorias</servlet-name>
+    <url-pattern>/categoria/listar</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ModificarCategoria</servlet-name>
+    <jsp-file>/views/models/categoria/modificar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModificarCategoria</servlet-name>
+    <url-pattern>/categoria/modificar</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MostrarCategoria</servlet-name>
+    <jsp-file>/views/models/categoria/mostrar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MostrarCategoria</servlet-name>
+    <url-pattern>/categoria/mostrar</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>CrearProducto</servlet-name>
+    <jsp-file>/views/models/producto/crear.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CrearProducto</servlet-name>
+    <url-pattern>/producto/crear</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ListarProductos</servlet-name>
+    <jsp-file>/views/models/producto/listar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListarProductos</servlet-name>
+    <url-pattern>/producto/listar</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ModificarProducto</servlet-name>
+    <jsp-file>/views/models/producto/modificar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModificarProducto</servlet-name>
+    <url-pattern>/producto/modificar</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ProductosFavoritos</servlet-name>
+    <jsp-file>/views/models/producto/favoritos.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProductosFavoritos</servlet-name>
+    <url-pattern>/producto/favoritos</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>CrearProveedor</servlet-name>
+    <jsp-file>/views/models/proveedor/crear.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CrearProveedor</servlet-name>
+    <url-pattern>/proveedor/crear</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ListarProveedores</servlet-name>
+    <jsp-file>/views/models/proveedor/listar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListarProveedores</servlet-name>
+    <url-pattern>/proveedor/listar</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ModificarProveedor</servlet-name>
+    <jsp-file>/views/models/proveedor/modificar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModificarProveedor</servlet-name>
+    <url-pattern>/proveedor/modificar</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Registrarse</servlet-name>
+    <jsp-file>/views/models/usuario/registrarse.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Registrarse</servlet-name>
+    <url-pattern>/usuario/registrarse</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>IniciarSesion</servlet-name>
+    <jsp-file>/views/models/usuario/iniciar_sesion.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IniciarSesion</servlet-name>
+    <url-pattern>/usuario/iniciar-sesion</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>EditarPerfil</servlet-name>
+    <jsp-file>/views/models/usuario/editar_perfil.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditarPerfil</servlet-name>
+    <url-pattern>/usuario/editar-perfil</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MostrarCarrito</servlet-name>
+    <jsp-file>/views/controllers/carrito/mostrar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MostrarCarrito</servlet-name>
+    <url-pattern>/carrito/mostrar</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>HacerPedido</servlet-name>
+    <jsp-file>/views/models/pedido/hacer.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HacerPedido</servlet-name>
+    <url-pattern>/pedido/hacer</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>PedidoConfirmado</servlet-name>
+    <jsp-file>/views/models/pedido/confirmado.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PedidoConfirmado</servlet-name>
+    <url-pattern>/pedido/confirmado</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ListarPedido</servlet-name>
+    <jsp-file>/views/models/pedido/listar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListarPedido</servlet-name>
+    <url-pattern>/pedido/listar</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>GestionarPedido</servlet-name>
+    <jsp-file>/views/models/pedido/gestionar.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GestionarPedido</servlet-name>
+    <url-pattern>/pedido/gestionar</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MisPedidos</servlet-name>
+    <jsp-file>/views/models/pedido/mis_pedidos.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MisPedidos</servlet-name>
+    <url-pattern>/pedido/mis-pedidos</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>DetallePedido</servlet-name>
+    <jsp-file>/views/models/pedido/detalle.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DetallePedido</servlet-name>
+    <url-pattern>/pedido/detalle</url-pattern>
+  </servlet-mapping>
+  
+</web-app>

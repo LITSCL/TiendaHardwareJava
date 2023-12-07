@@ -1,0 +1,117 @@
+package cl.litscl.tiendahardwarejavawar.pagination;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cl.litscl.tiendahardwareejb.model.Proveedor;
+
+public class ProveedorPaginador {
+	private int paginaActual = 0;
+	private int totalPaginas = 0;
+	private int totalResultados = 0;
+	private int resultadosPorPagina = 0;
+	private int indice = 0;
+	
+	private List<Proveedor> proveedores = new ArrayList<Proveedor>();
+	
+	public ProveedorPaginador(int paginaActual, int resultadosPorPagina, List<Proveedor> proveedores) {
+		this.paginaActual = paginaActual;
+		this.totalResultados = proveedores.size();
+		this.resultadosPorPagina = resultadosPorPagina;
+		this.totalPaginas = totalResultados / resultadosPorPagina;
+		this.indice = (this.paginaActual - 1) * (this.resultadosPorPagina);
+		
+		if (this.totalResultados > this.totalPaginas * this.resultadosPorPagina) {
+			this.totalPaginas++;
+		}
+		
+		this.proveedores = proveedores;
+	}
+	
+	public String generarRegistros(String formato, String raiz, String servlet, String vista) {
+		String resultado = "";
+		
+		if (proveedores.size() != 0) {
+			if (this.paginaActual <= this.totalPaginas) {
+				if (formato.equalsIgnoreCase("tarjeta")) {	
+					int contador = 0;
+					for (Proveedor p : this.proveedores) {	
+						if (contador >= this.indice) {
+							if (contador - this.indice == this.resultadosPorPagina) {
+								break;
+							}
+							//
+							//
+						}
+						contador++;	
+					}					
+					return resultado;
+				}
+				else if (formato.equalsIgnoreCase("tabla")) {
+					resultado+= "<table class='tabla'";
+					resultado+=     "<tr>";
+					resultado+=         "<th>ID</th>";
+					resultado+=         "<th>Nombre</th>";
+					resultado+=         "<th>Telefono</th>";
+					resultado+=         "<th>Correo</th>";
+					resultado+=         "<th>Acción 1</th>";
+					resultado+=         "<th>Acción 2</th>";
+					resultado+=    "</tr>";	
+					
+					int contador = 0;
+					for (Proveedor p : this.proveedores) {
+						if (contador >= this.indice) {
+							if (contador - this.indice == this.resultadosPorPagina) {
+								break;
+							}
+							resultado+="<tr>";
+							resultado+=    "<td>" + p.getId() + "</td>";
+							resultado+=    "<td>" + p.getNombre() + "</td>";
+							resultado+=    "<td>" + p.getTelefono() + "</td>";
+							resultado+=    "<td>" + p.getCorreo() + "</td>";
+							resultado+=    "<td>" + "<a class='boton boton-amarillo'" + " href='" + raiz + "/" + servlet + "?vista=modificar" + "&id=" + p.getId() + "'>" + "Modificar" + "</a>" + "</td>";
+							resultado+=    "<td>" + "<a class='boton boton-rojo'" + " href='" + raiz + "/" + servlet + "?opcion=1" + "&id=" + p.getId() + "'>" + "Eliminar" + "</a>" + "</td>";
+							resultado+="</tr>";
+						}
+						contador++;				
+					}		
+					resultado+="</table>";
+					
+					return resultado;
+				}
+				else {
+					return resultado;
+				}
+			}
+			else {
+				resultado = "Pagina Inexistente";
+				return resultado;
+			}
+		}
+		else {
+			resultado = "Sin Registros";
+			return resultado;
+		}
+	}
+	
+	public String generarNumeros(String raiz, String servlet, String vista) {
+		String resultado = "";
+		String actual = "";
+		
+		if (this.paginaActual <= this.totalPaginas) {
+			resultado = "<ul>";
+			for (int i = 1; i <= this.totalPaginas; i++) {
+				if (i == this.paginaActual) {
+					actual = "class='actual'";
+				}
+				else {
+					actual = "";
+				}	
+				resultado+="<li><a " + actual + " href='" + raiz + "/" + servlet + "?vista=" + vista + "&pagina=" + i + "'>" + i + "</a></li>";
+			}
+			resultado+="</ul>";
+		}
+		
+		return resultado;
+	}
+}
