@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Listar Categorías</title>
+<meta charset="UTF-8">
+<title>Listar CategorÃ­as</title>
 <%@ include file='../../includes/head_styles.jsp' %>
 <%@ include file='../../includes/head_scripts.jsp' %>
 <%@ include file='../../includes/head_random.jsp' %>
@@ -20,12 +20,12 @@ if (session.getAttribute("renderizarVista") == "listar") {
 		<%
 		if (session.getAttribute("eliminarCategoria") == "Exitoso") {
 		%>
-			<strong class="alerta alerta-verde">Categoría eliminada exitosamente</strong>
+			<strong class="alerta alerta-verde">CategorÃ­a eliminada exitosamente</strong>
 		<%
 		}
 		if (session.getAttribute("eliminarCategoria") == "Fallido") {	
 		%>
-			<strong class="alerta alerta-roja">Error al eliminar la categoría</strong>
+			<strong class="alerta alerta-roja">Error al eliminar la categorÃ­a</strong>
 		<%		
 		}
 		%>
@@ -33,7 +33,7 @@ if (session.getAttribute("renderizarVista") == "listar") {
 		<%
 		if (session.getAttribute("registros") == "Pagina Inexistente") {
 		%>
-			<h1 class="titulo-pagina-centrada">No se han encontrado resultados en esta página</h1>
+			<h1 class="titulo-pagina-centrada">No se han encontrado resultados en esta pÃ¡gina</h1>
 		<%
 		}
 		else if (session.getAttribute("registros") == "Sin Registros") {

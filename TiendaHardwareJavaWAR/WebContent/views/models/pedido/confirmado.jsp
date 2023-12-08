@@ -2,12 +2,12 @@
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.util.List"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Pedido Confirmado</title>
 <%@ include file='../../includes/head_styles.jsp' %>
 <%@ include file='../../includes/head_scripts.jsp' %>
@@ -28,7 +28,7 @@ if (session.getAttribute("renderizarVista") == "confirmado") {
 		%>
 			<strong class="alerta alerta-verde">Pedido realizado exitosamente</strong>
 			<p>
-				Una vez que recibamos tu pago en la cuenta bancaria <strong>56283715001</strong>, el pedido será procesado y despachado a tu domicilio.
+				Una vez que recibamos tu pago en la cuenta bancaria <strong>56283715001</strong>, el pedido serÃ¡ procesado y despachado a tu domicilio.
 			</p>
 			<%
 			if (session.getAttribute("datosPedido") != null) {

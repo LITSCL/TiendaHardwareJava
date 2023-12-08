@@ -1,12 +1,12 @@
 <%@page import="cl.litscl.tiendahardwarejavawar.util.CarritoUtil"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="cl.litscl.tiendahardwareejb.model.Producto"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Mostrar Carrito</title>
 <%@ include file='../../includes/head_styles.jsp' %>
 <%@ include file='../../includes/head_scripts.jsp' %>
@@ -36,7 +36,7 @@ if (session.getAttribute("renderizarVista") == "mostrar") {
 					<th>Nombre</th>
 					<th>Precio</th>
 					<th>Unidades</th>
-					<th>Acción</th>
+					<th>AcciÃ³n</th>
 				</tr>
 			<%
 			for (int i = 0; i < carrito.size(); i++) {
@@ -79,7 +79,7 @@ if (session.getAttribute("renderizarVista") == "mostrar") {
 		}
 		else {
 		%>
-			<h1 class="titulo-pagina-centrada">El carrito esta vacío</h1>
+			<h1 class="titulo-pagina-centrada">El carrito esta vacÃ­o</h1>
 		<% 
 		}
 		%>

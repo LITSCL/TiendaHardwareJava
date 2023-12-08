@@ -1,12 +1,12 @@
 <%@page import="cl.litscl.tiendahardwareejb.model.Categoria"%>
 <%@page import="java.util.List"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Crear Producto</title>
 <%@ include file='../../includes/head_styles.jsp' %>
 <%@ include file='../../includes/head_scripts.jsp' %>
@@ -38,13 +38,13 @@ if (session.getAttribute("renderizarVista") == "crear") {
 			<form action="<%=request.getContextPath()%>/Producto" method="POST" enctype="multipart/form-data">
 				<label for="nombre">Nombre</label>
 				<input type="text" name="nombre" required/>
-				<label for="descripcion">Descripción</label>
+				<label for="descripcion">DescripciÃ³n</label>
 				<textarea name="descripcion" required></textarea>
 				<label for="precio">Precio</label>
 				<input type="number" name="precio" min="500"/>
 				<label for="stock">Stock</label>
 				<input type="number" name="stock" min="1"/>
-				<label for="categoria">Categoría</label>
+				<label for="categoria">CategorÃ­a</label>
 				<select name="categoria">
 				<c:forEach items="${categorias}" var="c">
 					<option value="${c.id}">${c.nombre}</option>

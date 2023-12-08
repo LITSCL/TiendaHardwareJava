@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="ejbModule"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.eclipse.payara.tools.lib.system">
+	<classpathentry kind="con" path="fish.payara.eclipse.tools.server.lib.system">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.ejb"/>
 		</attributes>

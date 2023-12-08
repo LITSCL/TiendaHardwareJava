@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Crear Categoría</title>
+<meta charset="UTF-8">
+<title>Crear CategorÃ­a</title>
 <%@ include file='../../includes/head_styles.jsp' %>
 <%@ include file='../../includes/head_scripts.jsp' %>
 <%@ include file='../../includes/head_random.jsp' %>
@@ -18,16 +18,16 @@ if (session.getAttribute("renderizarVista") == "crear") {
 	<div class="contenido">
 	
 		<div class="contenedor-formulario">
-			<h1>Crear Categoría</h1>
+			<h1>Crear CategorÃ­a</h1>
 			<%
 			if (session.getAttribute("crearCategoria") == "Exitoso") {
 			%>
-				<strong class="alerta alerta-verde">Categoría creada exitosamente</strong>
+				<strong class="alerta alerta-verde">CategorÃ­a creada exitosamente</strong>
 			<%
 			}
 			if (session.getAttribute("crearCategoria") == "Fallido") {	
 			%>
-				<strong class="alerta alerta-roja">Error al crear la categoría</strong>
+				<strong class="alerta alerta-roja">Error al crear la categorÃ­a</strong>
 			<%		
 			}
 			%>

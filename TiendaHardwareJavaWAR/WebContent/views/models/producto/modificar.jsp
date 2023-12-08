@@ -2,12 +2,12 @@
 <%@page import="cl.litscl.tiendahardwareejb.model.Categoria"%>
 <%@page import="java.util.List"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Modificar Producto</title>
 <%@ include file='../../includes/head_styles.jsp' %>
 <%@ include file='../../includes/head_scripts.jsp' %>
@@ -41,13 +41,13 @@ if (session.getAttribute("renderizarVista") == "modificar") {
 				<input type="hidden" name="id" value="<%=p.getId()%>" readonly/>
 				<label for="nombre">Nombre</label>
 				<input type="text" name="nombre" value="<%=p.getNombre()%>" required/>
-				<label for="descripcion">Descripción</label>
+				<label for="descripcion">DescripciÃ³n</label>
 				<textarea name="descripcion" required><%=p.getDescripcion()%></textarea>
 				<label for="precio">Precio</label>
 				<input type="number" name="precio" value="<%=p.getPrecio()%>" min="500"/>
 				<label for="stock">Stock</label>
 				<input type="number" name="stock" value="<%=p.getStock()%>" min="1"/>
-				<label for="categoria">Categoría</label>
+				<label for="categoria">CategorÃ­a</label>
 				<select name="categoria">
 				<%
 				for (Categoria c : categorias) {

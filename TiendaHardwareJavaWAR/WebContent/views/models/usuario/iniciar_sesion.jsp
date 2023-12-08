@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Iniciar Sesión</title>
+<meta charset="UTF-8">
+<title>Iniciar SesiÃ³n</title>
 <%@ include file='../../includes/head_styles.jsp' %>
 <%@ include file='../../includes/head_scripts.jsp' %>
 <%@ include file='../../includes/head_random.jsp' %>
@@ -18,7 +18,7 @@ if (session.getAttribute("renderizarVista") == "iniciarSesion") {
 	<div class="contenido">
 	
 		<div class="contenedor-formulario">
-			<h1>Iniciar Sesión</h1>
+			<h1>Iniciar SesiÃ³n</h1>
 			<%
 			if (session.getAttribute("errorLogin") == "Credenciales incorrectas") {
 			%>
@@ -29,9 +29,9 @@ if (session.getAttribute("renderizarVista") == "iniciarSesion") {
 			<form action="<%=request.getContextPath()%>/Usuario" method="POST">
 				<label for="correo">Correo</label>
 				<input type="email" name="correo"/>
-				<label for="clave">Contraseña</label>
+				<label for="clave">ContraseÃ±a</label>
 				<input type="password" name="clave"/>
-				<button type="submit" name="opcion" value="2">Iniciar Sesión</button>
+				<button type="submit" name="opcion" value="2">Iniciar SesiÃ³n</button>
 			</form>
 		</div>
 		

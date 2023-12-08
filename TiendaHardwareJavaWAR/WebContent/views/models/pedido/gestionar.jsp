@@ -1,11 +1,11 @@
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="cl.litscl.tiendahardwareejb.model.Producto"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Gestionar Pedido</title>
 <%@ include file='../../includes/head_styles.jsp' %>
 <%@ include file='../../includes/head_scripts.jsp' %>
@@ -32,7 +32,7 @@ if (session.getAttribute("renderizarVista") == "gestionar") {
 					<input type="hidden" name="id" value="<%=datosPedido[0]%>"/>
 					<select name="estado">
 						<option value="Confirmado" <% if (((String)datosPedido[2]).equals("Confirmado")) { out.print(" selected"); } else {  } %>>Confirmado</option>
-						<option value="En preparación" <% if (((String)datosPedido[2]).equals("En preparación")) { out.print(" selected"); } else {  } %>>En preparación</option>
+						<option value="En preparaciÃ³n" <% if (((String)datosPedido[2]).equals("En preparaciÃ³n")) { out.print(" selected"); } else {  } %>>En preparaciÃ³n</option>
 						<option value="Preparado para enviar" <% if (((String)datosPedido[2]).equals("Preparado para enviar")) { out.print(" selected"); } else {  } %>>Preparado para enviar</option>
 						<option value="Enviado" <% if (((String)datosPedido[2]).equals("Enviado")) { out.print(" selected"); } else {  } %>>Enviado</option>
 					</select>

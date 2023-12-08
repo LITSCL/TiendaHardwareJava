@@ -1,11 +1,11 @@
 <%@page import="cl.litscl.tiendahardwareejb.model.Categoria"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Modificar Categoría</title>
+<meta charset="UTF-8">
+<title>Modificar CategorÃ­a</title>
 <%@ include file='../../includes/head_styles.jsp' %>
 <%@ include file='../../includes/head_scripts.jsp' %>
 <%@ include file='../../includes/head_random.jsp' %>
@@ -20,16 +20,16 @@ if (session.getAttribute("renderizarVista") == "modificar") {
 	<div class="contenido">
 	
 		<div class="contenedor-formulario">
-			<h1>Modificar Categoría</h1>
+			<h1>Modificar CategorÃ­a</h1>
 			<%
 			if (session.getAttribute("modificarCategoria") == "Exitoso") {
 			%>
-				<strong class="alerta alerta-verde">Categoría modificada exitosamente</strong>
+				<strong class="alerta alerta-verde">CategorÃ­a modificada exitosamente</strong>
 			<%
 			}
 			if (session.getAttribute("modificarCategoria") == "Fallido") {	
 			%>
-				<strong class="alerta alerta-roja">Error al modificar la categoría</strong>
+				<strong class="alerta alerta-roja">Error al modificar la categorÃ­a</strong>
 			<%		
 			}
 			%>
