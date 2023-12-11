@@ -196,5 +196,4 @@ public class PedidoDAO implements PedidoDAOLocal {
 			return null;
 		}
 	}
-
 }

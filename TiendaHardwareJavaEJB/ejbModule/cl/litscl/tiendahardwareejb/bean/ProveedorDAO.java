@@ -145,5 +145,4 @@ public class ProveedorDAO implements ProveedorDAOLocal {
 			return null;
 		}
 	}
-
 }

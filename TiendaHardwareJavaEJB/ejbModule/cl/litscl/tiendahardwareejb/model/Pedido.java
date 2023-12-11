@@ -41,54 +41,71 @@ public class Pedido implements Serializable {
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getCiudad() {
 		return ciudad;
 	}
+
 	public void setCiudad(String ciudad) {
 		this.ciudad = ciudad;
 	}
+
 	public String getComuna() {
 		return comuna;
 	}
+
 	public void setComuna(String comuna) {
 		this.comuna = comuna;
 	}
+
 	public String getCalle() {
 		return calle;
 	}
+
 	public void setCalle(String calle) {
 		this.calle = calle;
 	}
+
 	public double getCoste() {
 		return coste;
 	}
+
 	public void setCoste(double coste) {
 		this.coste = coste;
 	}
+
 	public String getEstado() {
 		return estado;
 	}
+
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
 	public String getFecha() {
 		return fecha;
 	}
+
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
+
 	public String getHora() {
 		return hora;
 	}
+
 	public void setHora(String hora) {
 		this.hora = hora;
 	}
+
 	public int getUsuarioFK() {
 		return usuarioFK;
 	}
+	
 	public void setUsuarioFK(int usuarioFK) {
 		this.usuarioFK = usuarioFK;
 	}

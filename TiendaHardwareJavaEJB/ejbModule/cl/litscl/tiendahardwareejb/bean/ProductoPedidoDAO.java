@@ -178,5 +178,4 @@ public class ProductoPedidoDAO implements ProductoPedidoDAOLocal {
 			return null;
 		}
 	}
-
 }

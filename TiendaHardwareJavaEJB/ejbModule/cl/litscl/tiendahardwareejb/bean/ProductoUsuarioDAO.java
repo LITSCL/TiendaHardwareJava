@@ -162,5 +162,4 @@ public class ProductoUsuarioDAO implements ProductoUsuarioDAOLocal {
 			return null;
 		}
 	}
-
 }

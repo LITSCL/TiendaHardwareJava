@@ -29,18 +29,23 @@ public class ProductoUsuario implements Serializable {
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public int getProductoFK() {
 		return productoFK;
 	}
+
 	public void setProductoFK(int productoFK) {
 		this.productoFK = productoFK;
 	}
+
 	public int getUsuarioFK() {
 		return usuarioFK;
 	}
+	
 	public void setUsuarioFK(int usuarioFK) {
 		this.usuarioFK = usuarioFK;
 	}
