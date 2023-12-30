@@ -3,6 +3,7 @@ package cl.litscl.tiendahardwarejavawar.util;
 import java.security.MessageDigest;
 
 public class EncriptacionUtil {
+
 	public String encriptarClave(String clave) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA");
@@ -47,4 +48,5 @@ public class EncriptacionUtil {
 			return false;
 		}
 	}
+	
 }

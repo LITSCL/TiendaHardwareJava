@@ -69,120 +69,120 @@ public class ProveedorControlador extends HttpServlet {
 		}
 		
 		switch (vista) { //Renderización de vistas.
-		case "crear":	
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				sesion.setAttribute("renderizarVista", "crear");
-				response.sendRedirect(request.getContextPath() + "/proveedor/crear");
-			}
-			break;
-		case "listar": {
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				List<Proveedor> proveedores = daoProveedor.getAll();
-				
-				boolean raiz = false;
-				int paginaActual;
-				try {
-					paginaActual = Integer.parseInt(request.getParameter("pagina"));
-				} catch (Exception ex) {
-					paginaActual = 1;
-					raiz = true;
-				}		
-
-				proveedorPaginador = new ProveedorPaginador(paginaActual, 15, proveedores);
-				
-				registros = proveedorPaginador.generarRegistros("tabla", request.getContextPath(), "Proveedor", "listar");
-				numeros = proveedorPaginador.generarNumeros(request.getContextPath(), "Proveedor", "listar");
-				
-				sesion.setAttribute("registros", registros);
-				sesion.setAttribute("numeros", numeros);
-				sesion.setAttribute("renderizarVista", "listar");
-				
-				if (raiz == true) {
-					response.sendRedirect(request.getContextPath() + "/proveedor/listar");
+			case "crear":	
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
+					response.sendRedirect(request.getContextPath());
 				}
 				else {
-					response.sendRedirect(request.getContextPath() + "/proveedor/listar" + "?pagina=" + paginaActual);
-				}		
-			}
-			break;
-		}
-		case "modificar": {
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				try {
-					this.id = Integer.parseInt(request.getParameter("id"));
-				} catch (Exception ex) {
-					this.id = -1;
+					sesion.setAttribute("renderizarVista", "crear");
+					response.sendRedirect(request.getContextPath() + "/proveedor/crear");
 				}
-				
-				if (this.id != -1) {
-					if (daoProveedor.find(this.id) != null) {
-						this.p = daoProveedor.find(this.id);
-						
-						sesion.setAttribute("proveedor", this.p);
-						sesion.setAttribute("renderizarVista", "modificar");
-						response.sendRedirect(request.getContextPath() + "/proveedor/modificar" + "?id=" + this.p.getId());
+				break;
+			case "listar": {
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
+					response.sendRedirect(request.getContextPath());
+				}
+				else {
+					List<Proveedor> proveedores = daoProveedor.getAll();
+					
+					boolean raiz = false;
+					int paginaActual;
+					try {
+						paginaActual = Integer.parseInt(request.getParameter("pagina"));
+					} catch (Exception ex) {
+						paginaActual = 1;
+						raiz = true;
+					}		
+
+					proveedorPaginador = new ProveedorPaginador(paginaActual, 15, proveedores);
+					
+					registros = proveedorPaginador.generarRegistros("tabla", request.getContextPath(), "Proveedor", "listar");
+					numeros = proveedorPaginador.generarNumeros(request.getContextPath(), "Proveedor", "listar");
+					
+					sesion.setAttribute("registros", registros);
+					sesion.setAttribute("numeros", numeros);
+					sesion.setAttribute("renderizarVista", "listar");
+					
+					if (raiz == true) {
+						response.sendRedirect(request.getContextPath() + "/proveedor/listar");
+					}
+					else {
+						response.sendRedirect(request.getContextPath() + "/proveedor/listar" + "?pagina=" + paginaActual);
+					}		
+				}
+				break;
+			}
+			case "modificar": {
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
+					response.sendRedirect(request.getContextPath());
+				}
+				else {
+					try {
+						this.id = Integer.parseInt(request.getParameter("id"));
+					} catch (Exception ex) {
+						this.id = -1;
+					}
+					
+					if (this.id != -1) {
+						if (daoProveedor.find(this.id) != null) {
+							this.p = daoProveedor.find(this.id);
+							
+							sesion.setAttribute("proveedor", this.p);
+							sesion.setAttribute("renderizarVista", "modificar");
+							response.sendRedirect(request.getContextPath() + "/proveedor/modificar" + "?id=" + this.p.getId());
+						}
+						else {
+							response.sendRedirect(request.getContextPath());
+						}	
 					}
 					else {
 						response.sendRedirect(request.getContextPath());
-					}	
+					}
 				}
-				else {
-					response.sendRedirect(request.getContextPath());
-				}
+				break;
 			}
-			break;
-		}
-		default:
-			break;
+			default:
+				break;
 		}
 		
 		switch (opcion) { //Acceso a datos GET.
-		case "1": { //Eliminar.
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				try {
-					this.id = Integer.parseInt(request.getParameter("id"));
-				} catch (Exception ex) {
-					this.id = -1;
-				}
-				
-				if (this.id != -1) {
-					if (daoProveedor.delete(this.id) == true) {
-						sesion.setAttribute("eliminarProveedor", "Exitoso");
-					}
-					else {
-						sesion.setAttribute("eliminarProveedor", "Fallido");
-					}
-					response.sendRedirect(request.getContextPath() + "/proveedor/listar");
-				}
-				else {
+			case "1": { //Eliminar.
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
 					response.sendRedirect(request.getContextPath());
 				}
+				else {
+					try {
+						this.id = Integer.parseInt(request.getParameter("id"));
+					} catch (Exception ex) {
+						this.id = -1;
+					}
+					
+					if (this.id != -1) {
+						if (daoProveedor.delete(this.id) == true) {
+							sesion.setAttribute("eliminarProveedor", "Exitoso");
+						}
+						else {
+							sesion.setAttribute("eliminarProveedor", "Fallido");
+						}
+						response.sendRedirect(request.getContextPath() + "/proveedor/listar");
+					}
+					else {
+						response.sendRedirect(request.getContextPath());
+					}
+				}
+				break;
 			}
-			break;
-		}
-		default:
-			break;
+			default:
+				break;
 		}
 		
 		switch (asincrono) { //Peticiones REST.
-		case "1": {
-			//
-			break;
-		}
-		default:
-			break;
+			case "1": {
+				//
+				break;
+			}
+			default:
+				break;
 		}
 	}
 
@@ -195,77 +195,76 @@ public class ProveedorControlador extends HttpServlet {
 		String opcion = request.getParameter("opcion");
 		
 		switch (opcion) { //Acceso a datos POST.
-		
-		case "1": { //Crear.
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				this.nombre = request.getParameter("nombre");
-				this.telefono = request.getParameter("telefono");
-				this.correo = request.getParameter("correo");
-				
-				if (this.nombre != null && this.telefono != null && this.correo != null) {
-					this.p.setNombre(nombre);
-					this.p.setTelefono(telefono);
-					this.p.setCorreo(correo);
-					
-					if (daoProveedor.save(this.p)) {
-						sesion.setAttribute("crearProveedor", "Exitoso");
-					}
-					else {
-						sesion.setAttribute("crearProveedor", "Fallido");
-					}		
-					response.sendRedirect(request.getContextPath() + "/proveedor/crear");
-				}
-				else {
+			case "1": { //Crear.
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
 					response.sendRedirect(request.getContextPath());
 				}
-			}
-			break;
-		}
-		case "2": { //Modificar.
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				try {
-					this.id = Integer.parseInt(request.getParameter("id"));
-				} catch (Exception ex) {
-					this.id = -1;
-				}
-				
-				this.nombre = request.getParameter("nombre");
-				this.telefono = request.getParameter("telefono");
-				this.correo = request.getParameter("correo");
-				
-				if (this.id != -1 && this.nombre != null && this.telefono != null && this.correo != null) {
-					if (daoProveedor.find(this.id) != null) {
-						this.p.setId(id);
+				else {
+					this.nombre = request.getParameter("nombre");
+					this.telefono = request.getParameter("telefono");
+					this.correo = request.getParameter("correo");
+					
+					if (this.nombre != null && this.telefono != null && this.correo != null) {
 						this.p.setNombre(nombre);
 						this.p.setTelefono(telefono);
 						this.p.setCorreo(correo);
 						
-						if (daoProveedor.update(this.p)) {
-							sesion.setAttribute("modificarProveedor", "Exitoso");
+						if (daoProveedor.save(this.p)) {
+							sesion.setAttribute("crearProveedor", "Exitoso");
 						}
 						else {
-							sesion.setAttribute("modificarProveedor", "Fallido");
-						}
-						response.sendRedirect(request.getContextPath() + "/proveedor/modificar" + "?id=" + this.p.getId());
+							sesion.setAttribute("crearProveedor", "Fallido");
+						}		
+						response.sendRedirect(request.getContextPath() + "/proveedor/crear");
 					}
 					else {
 						response.sendRedirect(request.getContextPath());
 					}
 				}
-				else {
+				break;
+			}
+			case "2": { //Modificar.
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
 					response.sendRedirect(request.getContextPath());
 				}
+				else {
+					try {
+						this.id = Integer.parseInt(request.getParameter("id"));
+					} catch (Exception ex) {
+						this.id = -1;
+					}
+					
+					this.nombre = request.getParameter("nombre");
+					this.telefono = request.getParameter("telefono");
+					this.correo = request.getParameter("correo");
+					
+					if (this.id != -1 && this.nombre != null && this.telefono != null && this.correo != null) {
+						if (daoProveedor.find(this.id) != null) {
+							this.p.setId(id);
+							this.p.setNombre(nombre);
+							this.p.setTelefono(telefono);
+							this.p.setCorreo(correo);
+							
+							if (daoProveedor.update(this.p)) {
+								sesion.setAttribute("modificarProveedor", "Exitoso");
+							}
+							else {
+								sesion.setAttribute("modificarProveedor", "Fallido");
+							}
+							response.sendRedirect(request.getContextPath() + "/proveedor/modificar" + "?id=" + this.p.getId());
+						}
+						else {
+							response.sendRedirect(request.getContextPath());
+						}
+					}
+					else {
+						response.sendRedirect(request.getContextPath());
+					}
+				}
+				break;
 			}
-			break;
-		}
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 

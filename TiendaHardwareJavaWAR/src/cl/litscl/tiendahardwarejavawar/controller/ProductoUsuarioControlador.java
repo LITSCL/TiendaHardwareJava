@@ -68,108 +68,108 @@ public class ProductoUsuarioControlador extends HttpServlet {
 		}
 		
 		switch (vista) { //Renderización de vistas.
-		case "vista": {
-			break;
-		}
-		default:
-			break;
+			case "vista": {
+				break;
+			}
+			default:
+				break;
 		}
 		
 		switch (opcion) { //Acceso a datos GET.
-		case "1": { //Crear.
-			JsonObjectBuilder builder = Json.createObjectBuilder();
-			JsonObject objetoJSON = null;
-			
-			if (sesion.getAttribute("usuario") != null) {
-				if ((((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador")) {
-					objetoJSON = builder.add("mensaje", "SERVIDOR: Eres administrador").build();
-				}
-				else if ((((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente")) {
-					try {
-						this.productoFK = Integer.parseInt(request.getParameter("id"));
-					} catch (Exception ex) {
-						this.productoFK = -1;
+			case "1": { //Crear.
+				JsonObjectBuilder builder = Json.createObjectBuilder();
+				JsonObject objetoJSON = null;
+				
+				if (sesion.getAttribute("usuario") != null) {
+					if ((((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador")) {
+						objetoJSON = builder.add("mensaje", "SERVIDOR: Eres administrador").build();
 					}
+					else if ((((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente")) {
+						try {
+							this.productoFK = Integer.parseInt(request.getParameter("id"));
+						} catch (Exception ex) {
+							this.productoFK = -1;
+						}
 
-					List<Object[]> resultado = daoProductoUsuario.customQuery("SELECT pu.id, pu.usuarioFK, pu.productoFK FROM ProductoUsuario pu WHERE pu.usuarioFK = " + "'" + ((Usuario)(sesion.getAttribute("usuario"))).getId() + "'" + " AND pu.productoFK = " + this.productoFK);
-					
-					if (resultado.size() == 0) {
-						this.pu.setProductoFK(productoFK);
-						this.pu.setUsuarioFK(((Usuario)(sesion.getAttribute("usuario"))).getId());
+						List<Object[]> resultado = daoProductoUsuario.customQuery("SELECT pu.id, pu.usuarioFK, pu.productoFK FROM ProductoUsuario pu WHERE pu.usuarioFK = " + "'" + ((Usuario)(sesion.getAttribute("usuario"))).getId() + "'" + " AND pu.productoFK = " + this.productoFK);
 						
-						if (daoProductoUsuario.save(this.pu)) {
-							objetoJSON = builder.add("mensaje", "SERVIDOR: Has dado like correctamente").build();
+						if (resultado.size() == 0) {
+							this.pu.setProductoFK(productoFK);
+							this.pu.setUsuarioFK(((Usuario)(sesion.getAttribute("usuario"))).getId());
+							
+							if (daoProductoUsuario.save(this.pu)) {
+								objetoJSON = builder.add("mensaje", "SERVIDOR: Has dado like correctamente").build();
+							}
+							else {
+								objetoJSON = builder.add("mensaje", "SERVIDOR: No has podido dar like correctamente").build();
+							}
 						}
 						else {
 							objetoJSON = builder.add("mensaje", "SERVIDOR: No has podido dar like correctamente").build();
 						}
 					}
-					else {
-						objetoJSON = builder.add("mensaje", "SERVIDOR: No has podido dar like correctamente").build();
-					}
 				}
-			}
-			else {
-				objetoJSON = builder.add("mensaje", "SERVIDOR: No estas logeado").build();
-			}
-			
-			response.setContentType(MediaType.APPLICATION_JSON);
-			try (PrintWriter pw = new PrintWriter(response.getOutputStream())) {
-				pw.println(objetoJSON.toString());
-			}
-			break;
-		}
-		case "2": { //Eliminar.
-			JsonObjectBuilder builder = Json.createObjectBuilder();
-			JsonObject objetoJSON = null;
-			
-			if (sesion.getAttribute("usuario") != null) {
-				if ((((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador")) {
-					objetoJSON = builder.add("mensaje", "SERVIDOR: Eres administrador").build();
+				else {
+					objetoJSON = builder.add("mensaje", "SERVIDOR: No estas logeado").build();
 				}
-				else if ((((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente")) {
-					try {
-						this.productoFK = Integer.parseInt(request.getParameter("id"));
-					} catch (Exception ex) {
-						this.productoFK = -1;
+				
+				response.setContentType(MediaType.APPLICATION_JSON);
+				try (PrintWriter pw = new PrintWriter(response.getOutputStream())) {
+					pw.println(objetoJSON.toString());
+				}
+				break;
+			}
+			case "2": { //Eliminar.
+				JsonObjectBuilder builder = Json.createObjectBuilder();
+				JsonObject objetoJSON = null;
+				
+				if (sesion.getAttribute("usuario") != null) {
+					if ((((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador")) {
+						objetoJSON = builder.add("mensaje", "SERVIDOR: Eres administrador").build();
 					}
+					else if ((((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente")) {
+						try {
+							this.productoFK = Integer.parseInt(request.getParameter("id"));
+						} catch (Exception ex) {
+							this.productoFK = -1;
+						}
 
-					List<Object[]> resultado = daoProductoUsuario.customQuery("SELECT pu.id, pu.usuarioFK, pu.productoFK FROM ProductoUsuario pu WHERE pu.usuarioFK = " + "'" + ((Usuario)(sesion.getAttribute("usuario"))).getId() + "'" + " AND pu.productoFK = " + this.productoFK);
-					
-					if (resultado.size() == 1) {
-						if (daoProductoUsuario.delete((int)resultado.get(0)[0])) {
-							objetoJSON = builder.add("mensaje", "SERVIDOR: Has dado dislike correctamente").build();
+						List<Object[]> resultado = daoProductoUsuario.customQuery("SELECT pu.id, pu.usuarioFK, pu.productoFK FROM ProductoUsuario pu WHERE pu.usuarioFK = " + "'" + ((Usuario)(sesion.getAttribute("usuario"))).getId() + "'" + " AND pu.productoFK = " + this.productoFK);
+						
+						if (resultado.size() == 1) {
+							if (daoProductoUsuario.delete((int)resultado.get(0)[0])) {
+								objetoJSON = builder.add("mensaje", "SERVIDOR: Has dado dislike correctamente").build();
+							}
+							else {
+								objetoJSON = builder.add("mensaje", "SERVIDOR: No has podido dar dislike correctamente").build();
+							}
 						}
 						else {
 							objetoJSON = builder.add("mensaje", "SERVIDOR: No has podido dar dislike correctamente").build();
 						}
 					}
-					else {
-						objetoJSON = builder.add("mensaje", "SERVIDOR: No has podido dar dislike correctamente").build();
-					}
 				}
+				else {
+					objetoJSON = builder.add("mensaje", "SERVIDOR: No estas logeado").build();
+				}
+				
+				response.setContentType(MediaType.APPLICATION_JSON);
+				try (PrintWriter pw = new PrintWriter(response.getOutputStream())) {
+					pw.println(objetoJSON.toString());
+				}
+				break;
 			}
-			else {
-				objetoJSON = builder.add("mensaje", "SERVIDOR: No estas logeado").build();
-			}
-			
-			response.setContentType(MediaType.APPLICATION_JSON);
-			try (PrintWriter pw = new PrintWriter(response.getOutputStream())) {
-				pw.println(objetoJSON.toString());
-			}
-			break;
-		}
-		default:
-			break;
+			default:
+				break;
 		}
 		
 		switch (asincrono) { //Peticiones REST.
-		case "1": {
-			//
-			break;
-		}
-		default:
-			break;
+			case "1": {
+				//
+				break;
+			}
+			default:
+				break;
 		}
 	}
 
@@ -182,13 +182,12 @@ public class ProductoUsuarioControlador extends HttpServlet {
 		String opcion = request.getParameter("opcion");
 		
 		switch (opcion) { //Acceso a datos POST.
-		
-		case "1": {
-			//
-			break;
-		}
-		default:
-			break;
+			case "1": {
+				//
+				break;
+			}
+			default:
+				break;
 		}
 	}
 

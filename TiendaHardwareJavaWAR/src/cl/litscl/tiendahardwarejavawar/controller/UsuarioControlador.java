@@ -82,57 +82,57 @@ public class UsuarioControlador extends HttpServlet {
 		}
 		
 		switch (vista) { //Renderización de vistas.
-		case "registrarse": {
-			if (sesion.getAttribute("usuario") != null) {
-				response.sendRedirect(request.getContextPath());
+			case "registrarse": {
+				if (sesion.getAttribute("usuario") != null) {
+					response.sendRedirect(request.getContextPath());
+				}
+				else {
+					sesion.setAttribute("renderizarVista", "registrarse");
+					response.sendRedirect(request.getContextPath() + "/usuario/registrarse");
+				}
+				break;
 			}
-			else {
-				sesion.setAttribute("renderizarVista", "registrarse");
-				response.sendRedirect(request.getContextPath() + "/usuario/registrarse");
+			case "iniciar_sesion": {
+				if (sesion.getAttribute("usuario") != null) {
+					response.sendRedirect(request.getContextPath());
+				}
+				else {
+					sesion.setAttribute("renderizarVista", "iniciarSesion");
+					response.sendRedirect(request.getContextPath() + "/usuario/iniciar-sesion");
+				}
+				break;
 			}
-			break;
-		}
-		case "iniciar_sesion": {
-			if (sesion.getAttribute("usuario") != null) {
-				response.sendRedirect(request.getContextPath());
+			case "editar_perfil": {
+				if (sesion.getAttribute("usuario") == null) {
+					response.sendRedirect(request.getContextPath());
+				}
+				else {
+					sesion.setAttribute("renderizarVista", "editarPerfil");
+					response.sendRedirect(request.getContextPath() + "/usuario/editar-perfil");
+				}
+				break;
 			}
-			else {
-				sesion.setAttribute("renderizarVista", "iniciarSesion");
-				response.sendRedirect(request.getContextPath() + "/usuario/iniciar-sesion");
-			}
-			break;
-		}
-		case "editar_perfil": {
-			if (sesion.getAttribute("usuario") == null) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				sesion.setAttribute("renderizarVista", "editarPerfil");
-				response.sendRedirect(request.getContextPath() + "/usuario/editar-perfil");
-			}
-			break;
-		}
-		default:
-			break;
+			default:
+				break;
 		}
 		
 		switch (opcion) { //Acceso a datos GET.
-		case "1": { //Cerrar sesión.
-			sesion.removeAttribute("usuario");
-			response.sendRedirect(request.getContextPath());
-			break;
-		}
-		default:
-			break;
+			case "1": { //Cerrar sesión.
+				sesion.removeAttribute("usuario");
+				response.sendRedirect(request.getContextPath());
+				break;
+			}
+			default:
+				break;
 		}
 		
 		switch (asincrono) { //Peticiones REST.
-		case "1": {
-			//
-			break;
-		}
-		default:
-			break;
+			case "1": {
+				//
+				break;
+			}
+			default:
+				break;
 		}
 	}
 
@@ -148,142 +148,146 @@ public class UsuarioControlador extends HttpServlet {
 		String opcion = request.getParameter("opcion");
 		
 		switch (opcion) { //Acceso a datos POST.
-		case "1": { //Registro.
-			if (sesion.getAttribute("usuario") != null) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				this.correo = request.getParameter("correo");
-				this.clave = request.getParameter("clave");
-				this.primerNombre = request.getParameter("primerNombre");
-				this.segundoNombre = request.getParameter("segundoNombre");
-				this.apellidoPaterno = request.getParameter("apellidoPaterno");
-				this.apellidoMaterno = request.getParameter("apellidoMaterno");
-				
-				if (this.correo != null && this.clave != null && this.primerNombre != null && this.segundoNombre != null && this.apellidoPaterno != null && this.apellidoMaterno != null) {
-					this.u.setCorreo(correo);
-					this.u.setClave(encriptacionUtil.encriptarClave(clave));
-					this.u.setTipo("Cliente");
-					this.u.setPrimerNombre(primerNombre);
-					this.u.setSegundoNombre(segundoNombre);
-					this.u.setApellidoPaterno(apellidoPaterno);
-					this.u.setApellidoMaterno(apellidoMaterno);
-					this.u.setImagen("Default.png");
-					if (daoUsuario.save(this.u)) {
-						sesion.setAttribute("registro", "Exitoso");
-					}
-					else {
-						sesion.setAttribute("registro", "Fallido");
-					}
-					response.sendRedirect(request.getContextPath() + "/usuario/registrarse");
-				}
-				else {
+			case "1": { //Registro.
+				if (sesion.getAttribute("usuario") != null) {
 					response.sendRedirect(request.getContextPath());
 				}
-			}
-			break;
-		}
-		case "2": { //Iniciar sesión.
-			if (sesion.getAttribute("usuario") != null) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				this.correo = request.getParameter("correo");
-				this.clave = request.getParameter("clave");
-				
-				if (this.correo != null && this.clave != null) {
-					this.u = (Usuario)(daoUsuario.findOne("correo", this.correo));
+				else {
+					this.correo = request.getParameter("correo");
+					this.clave = request.getParameter("clave");
+					this.primerNombre = request.getParameter("primerNombre");
+					this.segundoNombre = request.getParameter("segundoNombre");
+					this.apellidoPaterno = request.getParameter("apellidoPaterno");
+					this.apellidoMaterno = request.getParameter("apellidoMaterno");
 					
-					if (this.u != null) {
-						if (encriptacionUtil.validarClave(this.clave, this.u.getClave()) == true) {
-							sesion.setAttribute("usuario", this.u);
-							response.sendRedirect(request.getContextPath());
+					if (this.correo != null && this.clave != null && this.primerNombre != null && this.segundoNombre != null && this.apellidoPaterno != null && this.apellidoMaterno != null) {
+						this.u.setCorreo(correo);
+						this.u.setClave(encriptacionUtil.encriptarClave(clave));
+						this.u.setTipo("Cliente");
+						this.u.setPrimerNombre(primerNombre);
+						this.u.setSegundoNombre(segundoNombre);
+						this.u.setApellidoPaterno(apellidoPaterno);
+						this.u.setApellidoMaterno(apellidoMaterno);
+						this.u.setImagen("Default.png");
+						if (daoUsuario.save(this.u)) {
+							sesion.setAttribute("registro", "Exitoso");
+						}
+						else {
+							sesion.setAttribute("registro", "Fallido");
+						}
+						response.sendRedirect(request.getContextPath() + "/usuario/registrarse");
+					}
+					else {
+						response.sendRedirect(request.getContextPath());
+					}
+				}
+				break;
+			}
+			case "2": { //Iniciar sesión.
+				if (sesion.getAttribute("usuario") != null) {
+					response.sendRedirect(request.getContextPath());
+				}
+				else {
+					this.correo = request.getParameter("correo");
+					this.clave = request.getParameter("clave");
+					
+					if (this.correo != null && this.clave != null) {
+						this.u = (Usuario)(daoUsuario.findOne("correo", this.correo));
+						
+						if (this.u != null) {
+							if (encriptacionUtil.validarClave(this.clave, this.u.getClave()) == true) {
+								sesion.setAttribute("usuario", this.u);
+								response.sendRedirect(request.getContextPath());
+							}
+							else {
+								sesion.setAttribute("errorLogin", "Credenciales incorrectas");
+								response.sendRedirect(request.getContextPath() + "/usuario/iniciar-sesion");
+							}
 						}
 						else {
 							sesion.setAttribute("errorLogin", "Credenciales incorrectas");
 							response.sendRedirect(request.getContextPath() + "/usuario/iniciar-sesion");
-						}
+						}		
 					}
 					else {
-						sesion.setAttribute("errorLogin", "Credenciales incorrectas");
-						response.sendRedirect(request.getContextPath() + "/usuario/iniciar-sesion");
-					}		
+						response.sendRedirect(request.getContextPath());
+					}
 				}
-				else {
+				break;
+			}
+			case "3": { //Editar perfil.
+				if (sesion.getAttribute("usuario") == null) {
 					response.sendRedirect(request.getContextPath());
 				}
-			}
-			break;
-		}
-		case "3": { //Editar perfil.
-			if (sesion.getAttribute("usuario") == null) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				this.id = (((Usuario)(sesion.getAttribute("usuario"))).getId());
-				this.correo = request.getParameter("correo");
-				
-				String clave = request.getParameter("clave");
-				if (clave.equals("Clave no cambiada")) {
-					this.clave = (((Usuario)(sesion.getAttribute("usuario"))).getClave());
-				}
 				else {
-					this.clave = encriptacionUtil.encriptarClave(clave);
-				}
-				
-				this.primerNombre = request.getParameter("primerNombre");
-				this.segundoNombre = request.getParameter("segundoNombre");
-				this.apellidoPaterno = request.getParameter("apellidoPaterno");
-				this.apellidoMaterno = request.getParameter("apellidoMaterno");
-				
-				archivo = request.getPart("imagen");
-				
-				String correoActual = (((Usuario)(sesion.getAttribute("usuario"))).getCorreo());
-				boolean correoRepetido = false;
-				if (correoActual.equalsIgnoreCase(this.correo) == false) {
-					Usuario usuario = (Usuario)(daoUsuario.findOne("correo", this.correo));
-					if (usuario != null) {
-						correoRepetido = true;
+					this.id = (((Usuario)(sesion.getAttribute("usuario"))).getId());
+					this.correo = request.getParameter("correo");
+					
+					String clave = request.getParameter("clave");
+					if (clave.equals("Clave no cambiada")) {
+						this.clave = (((Usuario)(sesion.getAttribute("usuario"))).getClave());
 					}
-				}
-				
-				if (correoRepetido == false) {
-					if (archivo.getSubmittedFileName().equals("") == false && archivoUtil.validarFormato(archivo.getSubmittedFileName(), formatosSoportados) == true) {			
-						File archivoAntiguo = new File(rutaArchivos + (((Usuario)(sesion.getAttribute("usuario"))).getImagen()));
-						archivoAntiguo.delete();
-						
-						this.imagen = archivoUtil.guardarArchivo(archivo, rutaArchivoDestino);
-						
-						this.u.setCorreo(correo);
-						this.u.setClave(this.clave);
-						this.u.setTipo((((Usuario)(sesion.getAttribute("usuario"))).getTipo()));
-						this.u.setPrimerNombre(primerNombre);
-						this.u.setSegundoNombre(segundoNombre);
-						this.u.setApellidoPaterno(apellidoPaterno);
-						this.u.setApellidoMaterno(apellidoMaterno);
-						this.u.setImagen(imagen);
-						
-						if (daoUsuario.update(this.u)) {
-							sesion.setAttribute("editarPerfil", "Exitoso");
-						}
-						else {
-							sesion.setAttribute("editarPerfil", "Fallido");
+					else {
+						this.clave = encriptacionUtil.encriptarClave(clave);
+					}
+					
+					this.primerNombre = request.getParameter("primerNombre");
+					this.segundoNombre = request.getParameter("segundoNombre");
+					this.apellidoPaterno = request.getParameter("apellidoPaterno");
+					this.apellidoMaterno = request.getParameter("apellidoMaterno");
+					
+					archivo = request.getPart("imagen");
+					
+					String correoActual = (((Usuario)(sesion.getAttribute("usuario"))).getCorreo());
+					boolean correoRepetido = false;
+					if (correoActual.equalsIgnoreCase(this.correo) == false) {
+						Usuario usuario = (Usuario)(daoUsuario.findOne("correo", this.correo));
+						if (usuario != null) {
+							correoRepetido = true;
 						}
 					}
-					else if (archivo.getSubmittedFileName().equals("") == true) {
-						this.imagen = (((Usuario)(sesion.getAttribute("usuario"))).getImagen());
-						
-						this.u.setCorreo(correo);
-						this.u.setClave(this.clave);
-						this.u.setTipo((((Usuario)(sesion.getAttribute("usuario"))).getTipo()));
-						this.u.setPrimerNombre(primerNombre);
-						this.u.setSegundoNombre(segundoNombre);
-						this.u.setApellidoPaterno(apellidoPaterno);
-						this.u.setApellidoMaterno(apellidoMaterno);
-						this.u.setImagen(imagen);
-						
-						if (daoUsuario.update(this.u)) {
-							sesion.setAttribute("editarPerfil", "Exitoso");
+					
+					if (correoRepetido == false) {
+						if (archivo.getSubmittedFileName().equals("") == false && archivoUtil.validarFormato(archivo.getSubmittedFileName(), formatosSoportados) == true) {			
+							File archivoAntiguo = new File(rutaArchivos + (((Usuario)(sesion.getAttribute("usuario"))).getImagen()));
+							archivoAntiguo.delete();
+							
+							this.imagen = archivoUtil.guardarArchivo(archivo, rutaArchivoDestino);
+							
+							this.u.setCorreo(correo);
+							this.u.setClave(this.clave);
+							this.u.setTipo((((Usuario)(sesion.getAttribute("usuario"))).getTipo()));
+							this.u.setPrimerNombre(primerNombre);
+							this.u.setSegundoNombre(segundoNombre);
+							this.u.setApellidoPaterno(apellidoPaterno);
+							this.u.setApellidoMaterno(apellidoMaterno);
+							this.u.setImagen(imagen);
+							
+							if (daoUsuario.update(this.u)) {
+								sesion.setAttribute("editarPerfil", "Exitoso");
+							}
+							else {
+								sesion.setAttribute("editarPerfil", "Fallido");
+							}
+						}
+						else if (archivo.getSubmittedFileName().equals("") == true) {
+							this.imagen = (((Usuario)(sesion.getAttribute("usuario"))).getImagen());
+							
+							this.u.setCorreo(correo);
+							this.u.setClave(this.clave);
+							this.u.setTipo((((Usuario)(sesion.getAttribute("usuario"))).getTipo()));
+							this.u.setPrimerNombre(primerNombre);
+							this.u.setSegundoNombre(segundoNombre);
+							this.u.setApellidoPaterno(apellidoPaterno);
+							this.u.setApellidoMaterno(apellidoMaterno);
+							this.u.setImagen(imagen);
+							
+							if (daoUsuario.update(this.u)) {
+								sesion.setAttribute("editarPerfil", "Exitoso");
+							}
+							else {
+								sesion.setAttribute("editarPerfil", "Fallido");
+							}
 						}
 						else {
 							sesion.setAttribute("editarPerfil", "Fallido");
@@ -292,16 +296,12 @@ public class UsuarioControlador extends HttpServlet {
 					else {
 						sesion.setAttribute("editarPerfil", "Fallido");
 					}
+					response.sendRedirect(request.getContextPath() + "/usuario/editar-perfil");	
 				}
-				else {
-					sesion.setAttribute("editarPerfil", "Fallido");
-				}
-				response.sendRedirect(request.getContextPath() + "/usuario/editar-perfil");	
+				break;
 			}
-			break;
-		}
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 

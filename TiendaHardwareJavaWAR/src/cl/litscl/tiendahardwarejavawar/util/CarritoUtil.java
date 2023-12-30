@@ -3,6 +3,7 @@ package cl.litscl.tiendahardwarejavawar.util;
 import java.util.List;
 
 public class CarritoUtil {
+
 	public int obtenerTotal(List<Object[]> carrito) {
 		int total = 0;
 		
@@ -11,4 +12,5 @@ public class CarritoUtil {
 		}
 		return total;
 	}
+	
 }

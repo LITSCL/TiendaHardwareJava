@@ -83,160 +83,32 @@ public class PedidoControlador extends HttpServlet {
 		}
 		
 		switch (vista) { //Renderización de vistas.
-		case "hacer": {
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				List<Object[]> carrito = (List<Object[]>)sesion.getAttribute("carrito");
-				
-				if (carrito != null && carrito.size() >= 1) {
-					sesion.setAttribute("renderizarVista", "hacer");
-					response.sendRedirect(request.getContextPath() + "/pedido/hacer");
-				}
-				else {
+			case "hacer": {
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente") == false) {
 					response.sendRedirect(request.getContextPath());
 				}
-			}
-			break;
-		}
-		case "confirmado": {
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				jpql = "SELECT p.id, p.coste, p.estado FROM Pedido p WHERE p.usuarioFK = " + "'" + ((Usuario)sesion.getAttribute("usuario")).getId() + "'" + " ORDER BY p.id DESC";
-				Object[] datosPedido = daoPedido.customQuery(jpql).get(0);
-				
-				this.id = (int)datosPedido[0];
-				
-				jpql = "SELECT p, pp.unidades FROM Producto p INNER JOIN ProductoPedido pp ON p.id = pp.productoFK WHERE pp.pedidoFK = " + this.id;
-				
-				List<Object[]> productosPedido = daoProducto.customQuery(jpql);
-				
-				sesion.setAttribute("datosPedido", datosPedido);
-				sesion.setAttribute("productosPedido", productosPedido);
-				sesion.setAttribute("renderizarVista", "confirmado");
-				response.sendRedirect(request.getContextPath() + "/pedido/confirmado");
-			}
-			break;
-		}
-		case "listar": {
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				List<Pedido> pedidos = daoPedido.getAll();
-				
-				boolean raiz = false;
-				int paginaActual;
-				try {
-					paginaActual = Integer.parseInt(request.getParameter("pagina"));
-				} catch (Exception ex) {
-					paginaActual = 1;
-					raiz = true;
-				}		
-
-				pedidoPaginador = new PedidoPaginador(paginaActual, 15, pedidos);
-				
-				registros = pedidoPaginador.generarRegistros("tabla", request.getContextPath(), "Pedido", "listar", "Administrador");
-				numeros = pedidoPaginador.generarNumeros(request.getContextPath(), "Pedido", "listar");
-				
-				sesion.setAttribute("registros", registros);
-				sesion.setAttribute("numeros", numeros);
-				sesion.setAttribute("renderizarVista", "listar");
-				
-				if (raiz == true) {
-					response.sendRedirect(request.getContextPath() + "/pedido/listar");
-				}
 				else {
-					response.sendRedirect(request.getContextPath() + "/pedido/listar" + "?pagina=" + paginaActual);
-				}		
-			}
-			break;
-		}
-		case "mis_pedidos": {
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				List<Pedido> pedidos = daoPedido.findAll("usuarioFK", Integer.toString(((Usuario)(sesion.getAttribute("usuario"))).getId()));
-				
-				boolean raiz = false;
-				int paginaActual;
-				try {
-					paginaActual = Integer.parseInt(request.getParameter("pagina"));
-				} catch (Exception ex) {
-					paginaActual = 1;
-					raiz = true;
-				}		
-
-				pedidoPaginador = new PedidoPaginador(paginaActual, 15, pedidos);
-				
-				registros = pedidoPaginador.generarRegistros("tabla", request.getContextPath(), "Pedido", "mis_pedidos", "Cliente");
-				numeros = pedidoPaginador.generarNumeros(request.getContextPath(), "Pedido", "mis_pedidos");
-				
-				sesion.setAttribute("registros", registros);
-				sesion.setAttribute("numeros", numeros);
-				sesion.setAttribute("renderizarVista", "misPedidos");
-				
-				if (raiz == true) {
-					response.sendRedirect(request.getContextPath() + "/pedido/mis-pedidos");
-				}
-				else {
-					response.sendRedirect(request.getContextPath() + "/pedido/mis-pedidos" + "?pagina=" + paginaActual);
-				}		
-			}
-			break;
-		}
-		case "detalle": {
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente") == false) {
-					response.sendRedirect(request.getContextPath());
-			}
-			else {
-				try {
-					this.id = Integer.parseInt(request.getParameter("id"));
+					List<Object[]> carrito = (List<Object[]>)sesion.getAttribute("carrito");
 					
-					jpql = "SELECT p.id, p.coste, p.estado, p.usuarioFK FROM Pedido p WHERE p.id = " + this.id;
-					Object[] datosPedido = daoPedido.customQuery(jpql).get(0);
-					
-					if ((((Usuario)sesion.getAttribute("usuario")).getId()) == (int)datosPedido[3]) {
-						this.jpql = "SELECT p, pp.unidades FROM Producto p INNER JOIN ProductoPedido pp ON p.id = pp.productoFK WHERE pp.pedidoFK = " + this.id;
-						
-						List<Object[]> productosPedido = daoProducto.customQuery(jpql);
-						
-						sesion.setAttribute("datosPedido", datosPedido);
-						sesion.setAttribute("productosPedido", productosPedido);
-						sesion.setAttribute("renderizarVista", "detalle");
-						response.sendRedirect(request.getContextPath() + "/pedido/detalle" + "?id=" + this.id);
+					if (carrito != null && carrito.size() >= 1) {
+						sesion.setAttribute("renderizarVista", "hacer");
+						response.sendRedirect(request.getContextPath() + "/pedido/hacer");
 					}
 					else {
-						sesion.setAttribute("errorDetallePedido", "El pedido no te pertenece");
-						sesion.setAttribute("renderizarVista", "detalle");
-						response.sendRedirect(request.getContextPath() + "/pedido/detalle" + "?id=" + this.id);
+						response.sendRedirect(request.getContextPath());
 					}
-				} catch (Exception ex) {
-					sesion.setAttribute("errorDetallePedido", "El pedido no existe");
-					sesion.setAttribute("renderizarVista", "detalle");
-					response.sendRedirect(request.getContextPath() + "/pedido/detalle" + "?id=" + this.id);
 				}
+				break;
 			}
-			break;
-		}
-		case "gestionar": {
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				try {
-					this.id = Integer.parseInt(request.getParameter("id"));
-				} catch (Exception ex) {
-					this.id = -1;
+			case "confirmado": {
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente") == false) {
+					response.sendRedirect(request.getContextPath());
 				}
-				
-				if (this.id != -1 && daoPedido.find(this.id) != null) {
-					jpql = "SELECT p.id, p.coste, p.estado FROM Pedido p WHERE p.id = " + this.id;
+				else {
+					jpql = "SELECT p.id, p.coste, p.estado FROM Pedido p WHERE p.usuarioFK = " + "'" + ((Usuario)sesion.getAttribute("usuario")).getId() + "'" + " ORDER BY p.id DESC";
 					Object[] datosPedido = daoPedido.customQuery(jpql).get(0);
+					
+					this.id = (int)datosPedido[0];
 					
 					jpql = "SELECT p, pp.unidades FROM Producto p INNER JOIN ProductoPedido pp ON p.id = pp.productoFK WHERE pp.pedidoFK = " + this.id;
 					
@@ -244,17 +116,145 @@ public class PedidoControlador extends HttpServlet {
 					
 					sesion.setAttribute("datosPedido", datosPedido);
 					sesion.setAttribute("productosPedido", productosPedido);
-					sesion.setAttribute("renderizarVista", "gestionar");
-					response.sendRedirect(request.getContextPath() + "/pedido/gestionar" + "?id=" + this.id);
+					sesion.setAttribute("renderizarVista", "confirmado");
+					response.sendRedirect(request.getContextPath() + "/pedido/confirmado");
 				}
-				else {
+				break;
+			}
+			case "listar": {
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
 					response.sendRedirect(request.getContextPath());
 				}
+				else {
+					List<Pedido> pedidos = daoPedido.getAll();
+					
+					boolean raiz = false;
+					int paginaActual;
+					try {
+						paginaActual = Integer.parseInt(request.getParameter("pagina"));
+					} catch (Exception ex) {
+						paginaActual = 1;
+						raiz = true;
+					}		
+
+					pedidoPaginador = new PedidoPaginador(paginaActual, 15, pedidos);
+					
+					registros = pedidoPaginador.generarRegistros("tabla", request.getContextPath(), "Pedido", "listar", "Administrador");
+					numeros = pedidoPaginador.generarNumeros(request.getContextPath(), "Pedido", "listar");
+					
+					sesion.setAttribute("registros", registros);
+					sesion.setAttribute("numeros", numeros);
+					sesion.setAttribute("renderizarVista", "listar");
+					
+					if (raiz == true) {
+						response.sendRedirect(request.getContextPath() + "/pedido/listar");
+					}
+					else {
+						response.sendRedirect(request.getContextPath() + "/pedido/listar" + "?pagina=" + paginaActual);
+					}		
+				}
+				break;
 			}
-			break;
-		}
-		default:
-			break;
+			case "mis_pedidos": {
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente") == false) {
+					response.sendRedirect(request.getContextPath());
+				}
+				else {
+					List<Pedido> pedidos = daoPedido.findAll("usuarioFK", Integer.toString(((Usuario)(sesion.getAttribute("usuario"))).getId()));
+					
+					boolean raiz = false;
+					int paginaActual;
+					try {
+						paginaActual = Integer.parseInt(request.getParameter("pagina"));
+					} catch (Exception ex) {
+						paginaActual = 1;
+						raiz = true;
+					}		
+
+					pedidoPaginador = new PedidoPaginador(paginaActual, 15, pedidos);
+					
+					registros = pedidoPaginador.generarRegistros("tabla", request.getContextPath(), "Pedido", "mis_pedidos", "Cliente");
+					numeros = pedidoPaginador.generarNumeros(request.getContextPath(), "Pedido", "mis_pedidos");
+					
+					sesion.setAttribute("registros", registros);
+					sesion.setAttribute("numeros", numeros);
+					sesion.setAttribute("renderizarVista", "misPedidos");
+					
+					if (raiz == true) {
+						response.sendRedirect(request.getContextPath() + "/pedido/mis-pedidos");
+					}
+					else {
+						response.sendRedirect(request.getContextPath() + "/pedido/mis-pedidos" + "?pagina=" + paginaActual);
+					}		
+				}
+				break;
+			}
+			case "detalle": {
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente") == false) {
+						response.sendRedirect(request.getContextPath());
+				}
+				else {
+					try {
+						this.id = Integer.parseInt(request.getParameter("id"));
+						
+						jpql = "SELECT p.id, p.coste, p.estado, p.usuarioFK FROM Pedido p WHERE p.id = " + this.id;
+						Object[] datosPedido = daoPedido.customQuery(jpql).get(0);
+						
+						if ((((Usuario)sesion.getAttribute("usuario")).getId()) == (int)datosPedido[3]) {
+							this.jpql = "SELECT p, pp.unidades FROM Producto p INNER JOIN ProductoPedido pp ON p.id = pp.productoFK WHERE pp.pedidoFK = " + this.id;
+							
+							List<Object[]> productosPedido = daoProducto.customQuery(jpql);
+							
+							sesion.setAttribute("datosPedido", datosPedido);
+							sesion.setAttribute("productosPedido", productosPedido);
+							sesion.setAttribute("renderizarVista", "detalle");
+							response.sendRedirect(request.getContextPath() + "/pedido/detalle" + "?id=" + this.id);
+						}
+						else {
+							sesion.setAttribute("errorDetallePedido", "El pedido no te pertenece");
+							sesion.setAttribute("renderizarVista", "detalle");
+							response.sendRedirect(request.getContextPath() + "/pedido/detalle" + "?id=" + this.id);
+						}
+					} catch (Exception ex) {
+						sesion.setAttribute("errorDetallePedido", "El pedido no existe");
+						sesion.setAttribute("renderizarVista", "detalle");
+						response.sendRedirect(request.getContextPath() + "/pedido/detalle" + "?id=" + this.id);
+					}
+				}
+				break;
+			}
+			case "gestionar": {
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
+					response.sendRedirect(request.getContextPath());
+				}
+				else {
+					try {
+						this.id = Integer.parseInt(request.getParameter("id"));
+					} catch (Exception ex) {
+						this.id = -1;
+					}
+					
+					if (this.id != -1 && daoPedido.find(this.id) != null) {
+						jpql = "SELECT p.id, p.coste, p.estado FROM Pedido p WHERE p.id = " + this.id;
+						Object[] datosPedido = daoPedido.customQuery(jpql).get(0);
+						
+						jpql = "SELECT p, pp.unidades FROM Producto p INNER JOIN ProductoPedido pp ON p.id = pp.productoFK WHERE pp.pedidoFK = " + this.id;
+						
+						List<Object[]> productosPedido = daoProducto.customQuery(jpql);
+						
+						sesion.setAttribute("datosPedido", datosPedido);
+						sesion.setAttribute("productosPedido", productosPedido);
+						sesion.setAttribute("renderizarVista", "gestionar");
+						response.sendRedirect(request.getContextPath() + "/pedido/gestionar" + "?id=" + this.id);
+					}
+					else {
+						response.sendRedirect(request.getContextPath());
+					}
+				}
+				break;
+			}
+			default:
+				break;
 		}
 		
 		switch (opcion) { //Acceso a datos GET.
@@ -276,88 +276,88 @@ public class PedidoControlador extends HttpServlet {
 		String opcion = request.getParameter("opcion");
 		
 		switch (opcion) { //Acceso a datos POST.
-		case "1": { //Crear.
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				List<Object[]> carrito = (List<Object[]>)sesion.getAttribute("carrito");
-				
-				DateTimeFormatter fecha = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-			    DateTimeFormatter hora = DateTimeFormatter.ofPattern("HH:mm:ss");
-				
-				this.ciudad = request.getParameter("ciudad");
-				this.comuna = request.getParameter("comuna");
-				this.calle = request.getParameter("calle");
-				this.coste = new CarritoUtil().obtenerTotal(carrito);
-				this.estado = "Confirmado";
-				this.fecha = fecha.format(LocalDateTime.now());
-			    this.hora = hora.format(LocalDateTime.now());
-				this.usuarioFK = ((Usuario)(sesion.getAttribute("usuario"))).getId();
-				
-				if (this.ciudad != null && this.comuna != null && this.calle != null) {
-					this.p.setCiudad(ciudad);
-					this.p.setComuna(comuna);
-					this.p.setCalle(calle);
-					this.p.setCoste(coste);
-					this.p.setEstado(estado);
-					this.p.setFecha(this.fecha);
-					this.p.setHora(this.hora);
-					this.p.setUsuarioFK(usuarioFK);
+			case "1": { //Crear.
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Cliente") == false) {
+					response.sendRedirect(request.getContextPath());
+				}
+				else {
+					List<Object[]> carrito = (List<Object[]>)sesion.getAttribute("carrito");
 					
-					if (daoPedido.save(p)) {
-						jpql = "SELECT p.id, p.coste, p.estado FROM Pedido p WHERE p.usuarioFK = " + "'" + ((Usuario)sesion.getAttribute("usuario")).getId() + "'" + " ORDER BY p.id DESC";
+					DateTimeFormatter fecha = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+					DateTimeFormatter hora = DateTimeFormatter.ofPattern("HH:mm:ss");
+					
+					this.ciudad = request.getParameter("ciudad");
+					this.comuna = request.getParameter("comuna");
+					this.calle = request.getParameter("calle");
+					this.coste = new CarritoUtil().obtenerTotal(carrito);
+					this.estado = "Confirmado";
+					this.fecha = fecha.format(LocalDateTime.now());
+					this.hora = hora.format(LocalDateTime.now());
+					this.usuarioFK = ((Usuario)(sesion.getAttribute("usuario"))).getId();
+					
+					if (this.ciudad != null && this.comuna != null && this.calle != null) {
+						this.p.setCiudad(ciudad);
+						this.p.setComuna(comuna);
+						this.p.setCalle(calle);
+						this.p.setCoste(coste);
+						this.p.setEstado(estado);
+						this.p.setFecha(this.fecha);
+						this.p.setHora(this.hora);
+						this.p.setUsuarioFK(usuarioFK);
 						
-						int idPedido = (int)daoPedido.customQuery(jpql).get(0)[0];
+						if (daoPedido.save(p)) {
+							jpql = "SELECT p.id, p.coste, p.estado FROM Pedido p WHERE p.usuarioFK = " + "'" + ((Usuario)sesion.getAttribute("usuario")).getId() + "'" + " ORDER BY p.id DESC";
+							
+							int idPedido = (int)daoPedido.customQuery(jpql).get(0)[0];
 
-						if (daoProductoPedido.save(carrito, idPedido)) {
-							sesion.setAttribute("crearPedido", "Exitoso");
-							sesion.removeAttribute("carrito");
+							if (daoProductoPedido.save(carrito, idPedido)) {
+								sesion.setAttribute("crearPedido", "Exitoso");
+								sesion.removeAttribute("carrito");
+							}
+							else {
+								sesion.setAttribute("crearPedido", "Fallido");
+							}
 						}
 						else {
 							sesion.setAttribute("crearPedido", "Fallido");
 						}
-					}
-					else {
-						sesion.setAttribute("crearPedido", "Fallido");
-					}
-					response.sendRedirect(request.getContextPath() + "/pedido/confirmado");
-				}
-				else {
-					response.sendRedirect(request.getContextPath());
-				}
-			}
-			break;
-		}
-		case "2": { //Cambiar Estado.
-			if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
-				response.sendRedirect(request.getContextPath());
-			}
-			else {
-				try {
-					this.id = Integer.parseInt(request.getParameter("id"));
-				} catch (Exception ex) {
-					this.id = -1;
-				}
-					
-				this.estado = request.getParameter("estado");
-				
-				if (this.id != -1 && this.estado != null) {
-					if (daoPedido.updateOne(this.id, "estado", this.estado)) {
-						response.sendRedirect(request.getContextPath() + "/pedido/gestionar" + "?id=" + this.id);
+						response.sendRedirect(request.getContextPath() + "/pedido/confirmado");
 					}
 					else {
 						response.sendRedirect(request.getContextPath());
 					}
 				}
-				else {
+				break;
+			}
+			case "2": { //Cambiar Estado.
+				if (sesion.getAttribute("usuario") == null || (((Usuario)(sesion.getAttribute("usuario"))).getTipo()).equals("Administrador") == false) {
 					response.sendRedirect(request.getContextPath());
 				}
+				else {
+					try {
+						this.id = Integer.parseInt(request.getParameter("id"));
+					} catch (Exception ex) {
+						this.id = -1;
+					}
+						
+					this.estado = request.getParameter("estado");
+					
+					if (this.id != -1 && this.estado != null) {
+						if (daoPedido.updateOne(this.id, "estado", this.estado)) {
+							response.sendRedirect(request.getContextPath() + "/pedido/gestionar" + "?id=" + this.id);
+						}
+						else {
+							response.sendRedirect(request.getContextPath());
+						}
+					}
+					else {
+						response.sendRedirect(request.getContextPath());
+					}
+				}
+				break;
 			}
-			break;
-		}
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 
